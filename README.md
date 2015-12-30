@@ -1,6 +1,8 @@
 Mocker
 ===
 
+![NPM](https://img.shields.io/npm/v/node-mocker.svg)
+
 A proxy-pass server to mock backend data automatically.
 
 Usage
