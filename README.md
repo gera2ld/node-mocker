@@ -10,46 +10,56 @@ A proxy-pass server to mock backend data automatically.
 Usage
 ---
 ``` javascript
-const Mocker = require('node-mocker');
-const config = {
-  dir: 'mock-data/',
-  mode: 'save',
-  backends: {
-    '': {
-      prefix: '/backend',
-      host: 'http://default.backend.com',
-    },
-  },
-};
-
-Mocker.setConfig(config);
+const koa = require('koa');
+const mocker = require('node-mocker');
 
 app = koa();
-app.use(function* (next) {
-  const mocker = new Mocker(this);
-  yield mocker.mock();
-});
+app.use(mocker({
+  dir: 'mock-data',
+  mode: false, // false | {save: false, mock: false}
+  backends: {
+    '': [{
+      prefix: '/api',
+      backend_prefix: '/awesome',
+      host: 'http://awesome.backend.com',
+    }],
+    local: [{
+      prefix: '/api',
+      host: 'http://localhost',
+    }]
+  },
+}));
 ```
 
 ### Modes
 
-There are three modes: `'save'`, `'mock'` and `false`.
+`config.mode` is either `false` or an object with attributes below:
 
-* 'save'
-
-  Fetch all requests from remote and save the successful responses to cache directory (`config.dir`).
-
-* 'mock'
+* `mock`: Boolean
 
   Try to load responses from cache, and send requests when no cache data is found.
 
-* false
+* `save`: Boolean
 
-  Just work as a proxy-pass server.
+  Fetch from remote and save the successful responses to cache directory (`config.dir`).
 
 ### Backends
 
-Serveral backends can be referenced to `config.backends`, at least one (`config.backends['']`) should be provided, which will work as the default backend.
+Serveral groups of backends can be referenced to `config.backends`, at least one (`config.backends['']`) should be provided, which will work as the default backend.
+
+A group of backends should be an array of objects with attributes below:
+
+* `prefix`: Required
+
+  The prefix to match URLs that should be by-passed to proxy.
+
+* `backend_prefix`: Optional
+
+  If other than `null`, the `prefix` in `request.url` will be replaced to `backend_prefix`.
+
+* `host`: Required
+
+  The target host of proxy.
 
 If a cookie named `server` is sent, Mocker will try to find the corresponding backend with value of `server` as the name.
 
@@ -63,14 +73,15 @@ document.cookie = 'server=foo';
 const config = {
   ...
   backends: {
-    '': {
+    '': [{
       prefix: '',
+      backend_prefix: '/api',
       host: 'http://backend.default'
-    },
-    foo: {
+    }],
+    foo: [{
       prefix: '',
       host: 'http://backend.foo'
-    }
+    }]
   }
 };
 ```

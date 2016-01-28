@@ -1,19 +1,20 @@
 {
   "name": "node-mocker",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "A proxy-pass server to mock backend data automatically.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
+    "koa",
     "mock",
     "mocker"
   ],
   "author": "Gerald <i@gerald.top>",
   "license": "MIT",
   "dependencies": {
-    "http-proxy": "^1.12.0"
+    "http-proxy": "^1.13.0"
   },
   "repository": {
     "type": "git",
