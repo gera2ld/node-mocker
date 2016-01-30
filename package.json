@@ -4,7 +4,7 @@
   "description": "A proxy-pass server to mock backend data automatically.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node tools/serve"
   },
   "keywords": [
     "koa",
@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/gera2ld/node-mocker/issues"
   },
-  "homepage": "https://github.com/gera2ld/node-mocker#readme"
+  "homepage": "https://github.com/gera2ld/node-mocker#readme",
+  "devDependencies": {
+    "koa": "^1.1.2"
+  }
 }
