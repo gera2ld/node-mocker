@@ -43,6 +43,10 @@ app.use(mocker({
 
   Fetch from remote and save the successful responses to cache directory (`config.dir`).
 
+### Change the paths dynamically
+
+Optional `config.transformPath` is a function, with exact one parameter `ctx`, to generate a base name for the file to save the request data. The function may return a string as the base name. If the function returns `false` or `null` or `undefined`, the request data will be discarded.
+
 ### Backends
 
 Serveral groups of backends can be referenced to `config.backends`, at least one (`config.backends['']`) should be provided, which will work as the default backend.
@@ -53,13 +57,13 @@ A group of backends should be an array of objects with attributes below:
 
   The prefix to match URLs that should be by-passed to proxy.
 
-* `backend_prefix`: Optional
-
-  If other than `null`, the `prefix` in `request.url` will be replaced to `backend_prefix`.
-
 * `host`: Required
 
   The target host of proxy.
+
+* `backend_prefix`: Optional
+
+  If other than `null`, the `prefix` in `request.url` will be replaced to `backend_prefix`.
 
 If a cookie named `server` is sent, Mocker will try to find the corresponding backend with value of `server` as the name.
 
