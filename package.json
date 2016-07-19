@@ -1,6 +1,6 @@
 {
   "name": "node-mocker",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "A proxy-pass server to mock backend data automatically.",
   "main": "index.js",
   "scripts": {
